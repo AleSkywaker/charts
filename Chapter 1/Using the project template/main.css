@@ -1,0 +1,23 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.95em;
+  text-align: center;
+}
+#chart {
+  margin-top: 10px;
+  background-color: #f5f2eb;
+  border: 1px solid #000;
+}
+
+.bar {
+  fill: olivedrab;
+  shape-rendering: crispEdges;
+}
+.bar-label {
+  fill: white;
+  text-anchor: end;
+  font-size: 12px;
+}
