@@ -15,8 +15,8 @@ html {
   shape-rendering: crispEdges;
 }
 .bar-label {
-  fill: white;
-  text-anchor: end;
+  fill: #000;
+  text-anchor: middle;
   font-size: 18px;
 }
 .axis path,
