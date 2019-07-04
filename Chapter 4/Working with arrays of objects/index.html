@@ -30,13 +30,12 @@
 		var h = 450;
 		var margin = {
 			top: 40,
-			bottom: 40,
-			left: 60,
+			bottom: 90,
+			left: 65,
 			right: 40
 		};
 		var width = w - margin.left - margin.right;
 		var height = h - margin.top - margin.bottom;
-
 		var x = d3.scale.ordinal()
 			.domain(data.map(function (d) {
 				return d.key
@@ -47,7 +46,6 @@
 				return d.value;
 			})])
 			.range([height, 0]);
-
 		var linearColorScale = d3.scale.linear()
 			.domain([0, data.length])
 			.range(["#572500", "#F68026"])
@@ -71,18 +69,41 @@
 			.classed("display", true)
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+		var controls = d3.select('body')
+			.append('div')
+			.attr('id', 'controls');
+		var botonOdenar = controls.append('button')
+			.html('Ordenar datos: de mayor a menor')
+			.attr('estado', 0)
 
 		function plot(params) {
+			x.domain(data.map(function (d) {
+				return d.key
+			}))
+			y.domain([0, d3.max(data, function (d) {
+				return d.value;
+			})])
 
 			this.append('g')
-				.call(yGridLines)
+				.call(params.ygridlines)
 				.classed('gridline', true)
 				.attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+			//Enter()
 			this.selectAll(".bar")
 				.data(params.data)
 				.enter()
 				.append("rect")
-				.classed("bar", true)
+				.classed("bar", true);
+
+			this.selectAll(".bar-label")
+				.data(params.data)
+				.enter()
+				.append("text")
+				.classed("bar-label", true)
+
+			//Update()
+			this.selectAll(".bar")
 				.attr("x", function (d, i) {
 					return x(d.key)
 				})
@@ -93,17 +114,14 @@
 					return height - y(d.value);
 				})
 				.attr("width", function (d) {
-					return x.rangeBand();
+					return x.rangeBand() - 8;
 				})
 				.style("fill", function (d, i) {
 					// return linearColorScale(i);
 					return ordinalColorScale(i);
 				});
+
 			this.selectAll(".bar-label")
-				.data(params.data)
-				.enter()
-				.append("text")
-				.classed("bar-label", true)
 				.attr("x", function (d, i) {
 					return x(d.key) + (x.rangeBand() / 2);
 				})
@@ -115,17 +133,92 @@
 				.text(function (d) {
 					return d.value;
 				})
+
+			//Exit()
+			this.selectAll(".bar")
+				.data(params.data)
+				.exit()
+				.remove()
+
+			this.selectAll(".bar-label")
+				.data(params.data)
+				.exit()
+				.remove()
+
 			this.append('g')
 				.classed('x axis', true)
 				.attr('transform', 'translate(' + 0 + ', ' + height + ')')
-				.call(xAxis);
+				.call(params.axis.x)
+				.selectAll('text')
+				.style('text-anchor', 'end')
+				.attr('dx', -8)
+				.attr('dy', 8)
+				.attr('transform', 'translate(0,0) rotate(-45)');
 			this.append('g')
 				.classed('y axis', true)
 				.attr('transform', 'translate(' + 0 + ', ' + 0 + ')')
-				.call(yAxis);
+				.call(params.axis.y);
 
+			this.select('.y.axis')
+				.append('text')
+				.attr('x', 0)
+				.attr('y', 0)
+				.classed('textY', true)
+				.attr('transform', 'translate(' + -50 + ',' + height / 2 + ') rotate(-90)')
+				.style('text-anchor', 'middle')
+				.text('unidades vendidas')
+
+			this.select('.x.axis')
+				.append('text')
+				.attr('x', 0)
+				.attr('y', 0)
+				.classed('textX', true)
+				.attr('transform', 'translate(' + width / 2 + ',' + 80 + ') rotate(0)')
+				.style('text-anchor', 'middle')
+				.text('Tipo de Donuts')
 		}
-		plot.call(chart, { data: data });
+
+		botonOdenar.on('click', function () {
+			var self = d3.select(this);
+			var asc = function (a, b) {
+				return a.value - b.value;
+			}
+			var desc = function (a, b) {
+				return b.value - a.value;
+			}
+			var state = +self.attr('estado');
+			var txt = "Ordenar datos: ";
+			if (state === 0) {
+				data.sort(asc);
+				state = 1;
+				txt += 'de menor a mayor'
+			} else if (state === 1) {
+				data.sort(desc)
+				state = 0;
+				txt += 'de mayor a menor'
+			}
+			console.log("datos", data);
+			self.attr('estado', state);
+			self.html(txt);
+
+			plot.call(chart, {
+				data: data,
+				axis: {
+					x: xAxis,
+					y: yAxis
+				},
+				ygridlines: yGridLines
+			});
+		})
+
+		plot.call(chart, {
+			data: data,
+			axis: {
+				x: xAxis,
+				y: yAxis
+			},
+			ygridlines: yGridLines
+		});
 	</script>
 </body>
 

@@ -31,3 +31,11 @@ html {
   stroke: #ccc;
   shape-rendering: crispEdges;
 }
+.textX,
+.textY {
+  fill: #000;
+  font-style: oblique;
+  font-weight: bolder;
+  font-stretch: condensed;
+  shape-rendering: crispEdges;
+}
