@@ -33,6 +33,10 @@ html {
 }
 .trendline {
   fill: none;
-  stroke: #ccc;
+  stroke: red;
   stroke-width: 1px;
+}
+.area {
+  fill: yellowgreen;
+  fill-opacity: 0.3;
 }
