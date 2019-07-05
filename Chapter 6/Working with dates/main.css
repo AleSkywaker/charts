@@ -40,3 +40,7 @@ html {
   fill: yellowgreen;
   fill-opacity: 0.3;
 }
+.point {
+	fill: yellow;
+	stroke:black;
+}

@@ -96,6 +96,7 @@
 			.y(function (d) {
 				return y(d.value);
 			})
+			.interpolate('monotone')
 
 		var area = d3.svg.area()
 			.x(function (d) {
@@ -106,6 +107,7 @@
 			.y1(function (d) {
 				return y(d.value);
 			})
+			.interpolate('monotone')
 		function plot(params) {
 			this.append('g')
 				.classed('x axis', true)
@@ -131,7 +133,7 @@
 				.enter()
 				.append('circle')
 				.classed('point', true)
-				.attr('r', 2)
+				.attr('r', 4)
 			//update()
 			this.selectAll('.area')
 				.attr('d', function (d) {
