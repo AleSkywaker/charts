@@ -86,6 +86,11 @@
 				.classed('point', true)
 				.attr('r', 2)
 			//update()
+			this.selectAll('.point')
+				.attr('cx', function (d) {
+					var date = dateParser(d.date)
+					return x(date)
+				})
 			//exit()
 		}
 
