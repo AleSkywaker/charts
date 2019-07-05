@@ -78,6 +78,13 @@
 			})])
 			.range([height, 0])
 
+		var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient("bottom")
+		var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient("left")
+
 		function plot(params) {
 			//enter()
 			this.selectAll('.point')
@@ -103,7 +110,11 @@
 		}
 
 		plot.call(chart, {
-			data: data
+			data: data,
+			axis: {
+				x: xAxis,
+				y: yAxis
+			}
 		});
 	</script>
 </body>
