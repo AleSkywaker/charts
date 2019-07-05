@@ -97,6 +97,15 @@
 				return y(d.value);
 			})
 
+		var area = d3.svg.area()
+			.x(function (d) {
+				var date = dateParser(d.date);
+				return x(date);
+			})
+			.y0(height)
+			.y1(function (d) {
+				return y(d.value);
+			})
 		function plot(params) {
 			this.append('g')
 				.classed('x axis', true)
