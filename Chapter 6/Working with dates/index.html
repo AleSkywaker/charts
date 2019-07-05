@@ -70,6 +70,7 @@
 				var date = dateParser(d.date)
 				return date
 			}))
+			.range([0, width])
 
 		var y = d3.scale.linear()
 			.domain([0, d3.max(data, function (d) {
@@ -91,7 +92,14 @@
 					var date = dateParser(d.date)
 					return x(date)
 				})
+				.attr('cy', function (d) {
+					return y(d.value)
+				})
 			//exit()
+			this.selectAll('.point')
+				.data(params.data)
+				.exit()
+				.remove()
 		}
 
 		plot.call(chart, {
