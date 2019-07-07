@@ -48,7 +48,9 @@
 				.classed("point", true);
 			//update
 			this.selectAll(".point")
-				.attr("r", 2)
+				.attr("r", function (d) {
+					return d.responses;
+				})
 				.attr("cx", function (d) {
 					return x(d.age);
 				})
