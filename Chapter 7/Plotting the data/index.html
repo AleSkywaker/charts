@@ -49,7 +49,7 @@
 			//update
 			this.selectAll(".point")
 				.attr("r", function (d) {
-					return d.responses;
+					return d.responses * 2;
 				})
 				.attr("cx", function (d) {
 					return x(d.age);
